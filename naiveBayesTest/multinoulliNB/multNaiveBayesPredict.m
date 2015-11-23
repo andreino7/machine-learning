@@ -2,6 +2,7 @@ function y = multNaiveBayesPredict(X, model, m)
 %%  This function predicts with Naive Bayes classifier for multi-valued features
 % m is the number of classes
 % x(i, j) is the feature j on sample i
+%  The values are enumerated from 1;
 % model is the NB model fitted previously
 % y(i) is the class label for the i-th sample
 %
@@ -18,7 +19,7 @@ function y = multNaiveBayesPredict(X, model, m)
         for c = 1:m
             L(i, c) = log(classPrior(c));
             for j = 1:D
-                att = X(i, j) + 1; % because the enumeration starts at 1
+                att = X(i, j);
                 L(i, c) = L(i, c) + log(featureParams(j, c, att));
             end
             
@@ -29,3 +30,7 @@ function y = multNaiveBayesPredict(X, model, m)
         y(i) = argmax_c;
     end
 end
+
+% Quantify qualitative features
+% Discretize continuous features
+% Use boosting
