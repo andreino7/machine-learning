@@ -1,11 +1,12 @@
-
-function model = GaussianNaiveBayesFit(X, y, m)
+function model = GaussianNaiveBayesFit(X,y,m)
 %%  This function fits a Gaussian Naive Bayes model
 % m is the number of classes
 % X(i, j) is the feature j value on the sample i
 % y(i) is the class label of the i-th sample
+% w are the weights of the samples
 % model is the model to be fitted
 %
+    % X(:,[4]) = [];
     S = size(X);
     N = S(1); % Number of samples
     D = S(2); % Dimension of each sample
@@ -14,11 +15,11 @@ function model = GaussianNaiveBayesFit(X, y, m)
     featureParams = zeros(D, m, 2); % mean and squared deviation of each
                                     % feature in each class
     
-    % Calculating the means of the features
+    % Calculating the class priors and the means of the features
     for i = 1:N
         c = y(i);
         classSizes(c) = classSizes(c) + 1;
-        classPrior(c) = classPrior(c) + 1;
+        classPrior(c) = classPrior(c) + 1; % *w(i)*N
         for j = 1:D
             att = X(i, j);
             featureParams(j, c, 1) = featureParams(j, c, 1) + att;
